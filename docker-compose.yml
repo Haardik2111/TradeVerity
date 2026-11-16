@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  tradeverity-db:
+    image: postgres:16-alpine
+    container_name: tradeverity-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: tradeverity
+      POSTGRES_USER: tradeverity_user
+      POSTGRES_PASSWORD: TradeVerity_Secure_Pass2026!
+    ports:
+      - "5432:5432"
+    volumes:
+      - tradeverity_pgdata:/var/lib/postgresql/data
+      - ./database/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U tradeverity_user -d tradeverity"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  tradeverity-backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: tradeverity-backend
+    restart: unless-stopped
+    depends_on:
+      tradeverity-db:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: postgres
+      DB_HOST: tradeverity-db
+      DB_PORT: 5432
+      DB_NAME: tradeverity
+      DB_USER: tradeverity_user
+      DB_PASSWORD: TradeVerity_Secure_Pass2026!
+      SERVER_PORT: 8080
+    ports:
+      - "8080:8080"
+
+  tradeverity-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: tradeverity-frontend
+    restart: unless-stopped
+    depends_on:
+      - tradeverity-backend
+    ports:
+      - "5173:80"
+
+volumes:
+  tradeverity_pgdata:

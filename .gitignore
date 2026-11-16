@@ -1,0 +1,39 @@
+# Node / Frontend
+node_modules/
+dist/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Java / Maven / Binaries
+target/
+*.class
+.mvn/
+*.jar
+*.war
+tools/
+
+# IDE & OS
+.idea/
+*.iml
+.vscode/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.DS_Store
+Thumbs.db
+
+# Database & Runtime Logs
+*.log
+*.dump
+*.dumpstream
+h2.db
+tradeverity.mv.db
+tradeverity.trace.db
