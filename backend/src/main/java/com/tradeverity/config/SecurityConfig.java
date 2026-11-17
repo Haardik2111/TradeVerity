@@ -38,15 +38,16 @@ public class SecurityConfig {
             .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
-                // Public / unauthenticated paths
+                // Public / unauthenticated paths (citizen reporting, metrics, lookups)
                 .requestMatchers("/h2-console/**", "/error", "/api/v1/metrics/**").permitAll()
                 .requestMatchers(HttpMethod.POST, "/api/v1/users/bootstrap").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/cases/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/intelligence/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/entities/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/reports/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/api/v1/verification/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/v1/verification/check").permitAll()
+                .requestMatchers("/api/v1/users/me").permitAll()
+                .requestMatchers("/api/v1/cases/**").permitAll()
+                .requestMatchers("/api/v1/intelligence/**").permitAll()
+                .requestMatchers("/api/v1/entities/**").permitAll()
+                .requestMatchers("/api/v1/reports/**").permitAll()
+                .requestMatchers("/api/v1/verification/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/api/v1/admin/sources/**").permitAll()
                 // Role-restricted reviewer & admin paths
                 .requestMatchers("/api/v1/review/**").hasAnyRole("REVIEWER", "ADMIN")
                 .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")

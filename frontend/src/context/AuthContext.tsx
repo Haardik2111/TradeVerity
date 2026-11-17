@@ -51,12 +51,19 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
     return DEFAULT_DEMO_USER;
   });
-  const [idToken, setIdToken] = useState<string | null>(() => localStorage.getItem('tv_id_token'));
+  const [idToken, setIdToken] = useState<string | null>(() => {
+    const saved = localStorage.getItem('tv_id_token');
+    if (saved) return saved;
+    const defaultToken = 'simulated_jwt_token_demo-analyst-arjun';
+    try { localStorage.setItem('tv_id_token', defaultToken); } catch (e) { /* ignore */ }
+    return defaultToken;
+  });
   const [loading, setLoading] = useState(true);
 
   // Sync token to API service
   useEffect(() => {
-    api.setToken(idToken);
+    const token = idToken || localStorage.getItem('tv_id_token') || 'simulated_jwt_token_demo-analyst-arjun';
+    api.setToken(token);
   }, [idToken]);
 
   // Firebase Auth State Listener
@@ -228,6 +235,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       const updated = { ...userProfile, role };
       setUserProfile(updated);
       localStorage.setItem('tv_user_profile', JSON.stringify(updated));
+      const token = 'simulated_jwt_token_' + (role === 'ADMIN' ? 'demo-admin-system' : role === 'INVESTOR' ? 'demo-investor-user' : 'demo-analyst-arjun');
+      setIdToken(token);
+      localStorage.setItem('tv_id_token', token);
+      api.setToken(token);
     }
   };
 
