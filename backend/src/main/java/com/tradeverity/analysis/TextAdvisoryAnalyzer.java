@@ -20,7 +20,8 @@ public class TextAdvisoryAnalyzer implements EvidenceAnalyzer {
     @Override
     public void analyze(EvidenceItem item) {
         String raw = item.getRawValue();
-        if (raw == null || raw.trim().isEmpty()) return;
+        if (raw == null || raw.trim().isEmpty())
+            return;
 
         item.setNormalizedValue(raw.trim());
         item.setMaskedValue(raw.length() > 80 ? raw.substring(0, 80) + "..." : raw);
