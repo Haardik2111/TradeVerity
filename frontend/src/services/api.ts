@@ -11,7 +11,7 @@ import {
   UserProfile 
 } from '../types';
 
-const API_BASE = import.meta.env.VITE_BACKEND_API_URL || 'http://localhost:8080/api/v1';
+const API_BASE = import.meta.env.VITE_BACKEND_API_URL || '/api/v1';
 
 class ApiService {
   private token: string | null = null;

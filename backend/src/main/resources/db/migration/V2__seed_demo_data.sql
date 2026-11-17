@@ -13,12 +13,12 @@ VALUES
 ('CYBER_CRIME', 'National Cyber Crime Reporting Coordination', 'https://cybercrime.gov.in', 'THREAT_FEED', 'LIVE', 'LIVE', 'v2026.10-DEMO'),
 ('WHOIS_INTEL', 'Global Domain RDAP & Fast-Flux Telemetry', 'https://rdap.org', 'WHOIS_LOOKUP', 'LIVE', 'LIVE', 'v2026.11-RDAP');
 
--- Demo Users
-INSERT INTO users (user_id, firebase_uid, full_name, email, role, status)
+-- Demo Users (BIGSERIAL auto-assigns 1, 2, 3 and advances PostgreSQL sequence)
+INSERT INTO users (firebase_uid, full_name, email, role, status)
 VALUES 
-(1, 'demo-analyst-arjun', 'Arjun Mehta', 'arjun.mehta@tradeverity.internal', 'REVIEWER', 'ACTIVE'),
-(2, 'demo-investor-user', 'Priya Sharma', 'priya.investor@example.com', 'INVESTOR', 'ACTIVE'),
-(3, 'demo-admin-system', 'Chief Security Officer', 'admin@tradeverity.internal', 'ADMIN', 'ACTIVE');
+('demo-analyst-arjun', 'Arjun Mehta', 'arjun.mehta@tradeverity.internal', 'REVIEWER', 'ACTIVE'),
+('demo-investor-user', 'Priya Sharma', 'priya.investor@example.com', 'INVESTOR', 'ACTIVE'),
+('demo-admin-system', 'Chief Security Officer', 'admin@tradeverity.internal', 'ADMIN', 'ACTIVE');
 
 -- Cases
 INSERT INTO case_reports (case_id, user_id, entity_name, category, claimed_org, registration_no, website_url, contact_info, summary_narrative, status, risk_band, risk_score, evidence_confidence, relationship_confidence, is_demo)
